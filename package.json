@@ -1,0 +1,85 @@
+{
+  "name": "nevar",
+  "description": "Nevar is a lightweight and fast Discord bot written in TypeScript",
+  "version": "6.0.0",
+  "homepage": "https://nevar.eu",
+  "main": "dist/app.js",
+  "type": "module",
+  "license": "AGPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nevar-bot/nevar-v6.git"
+  },
+  "author": "1887jonas <admin@nevar.eu> (https://github.com/1887jonas)",
+  "engines": {
+    "node": ">=20.15.1",
+    "npm": ">=10.8.2"
+  },
+  "funding": {
+    "type": "individual",
+    "url": "https://prohosting24.net/cp/donate/nevar"
+  },
+  "bugs": {
+    "url": "https://github.com/nevar-bot/nevar-v6/issues",
+    "email": "hello@nevar.eu"
+  },
+  "scripts": {
+    "lint": "eslint . --cache --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint . --fix --cache --ext .js,.jsx,.ts,.tsx",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "validate": "tsc --project tsconfig.json --noEmit --pretty",
+    "build": "rimraf dist && npx swc src -d dist --copy-files",
+    "start": "npm run build && node --enable-source-maps dist/app.js",
+    "commands:view": "npm run build && node --enable-source-maps dist/app.js commands view",
+    "commands:register": "npm run build && node --enable-source-maps dist/app.js commands register",
+    "commands:unregister": "npm run build && node --enable-source-maps dist/app.js commands unregister",
+    "commands:delete": "npm run build && node --enable-source-maps dist/app.js commands delete"
+  },
+  "devDependencies": {
+    "@swc/cli": "^0.1.63",
+    "@swc/core": "^1.5.24",
+    "@types/express": "^4.17.21",
+    "@types/module-alias": "^2.0.4",
+    "@types/node": "^20.14.2",
+    "@types/source-map-support": "^0.5.10",
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-unicorn": "^53.0.0",
+    "prettier": "^3.1.1",
+    "rimraf": "^5.0.7",
+    "source-map-support": "^0.5.21",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "axios": "^1.7.9",
+    "canvas": "^2.11.2",
+    "chartjs": "^0.3.24",
+    "chartjs-node-canvas": "^4.1.6",
+    "colorette": "^2.0.20",
+    "config": "^3.3.11",
+    "date-fns": "^4.1.0",
+    "discord.js": "^14.16.3",
+    "enhanced-ms": "^3.0.0",
+    "lodash": "^4.17.21",
+    "mathjs": "^12.2.1",
+    "module-alias": "^2.2.3",
+    "mongoose": "^8.8.4",
+    "node-schedule": "^2.1.1",
+    "table": "^6.8.2"
+  },
+  "_moduleAliases": {
+    "@root": ".",
+    "@src": "dist",
+    "@commands": "dist/commands",
+    "@core": "dist/core",
+    "@database": "dist/database",
+    "@events": "dist/events",
+    "@extenders": "dist/extenders",
+    "@jobs": "dist/jobs",
+    "@services": "dist/services",
+    "@utils": "dist/utils"
+  }
+}

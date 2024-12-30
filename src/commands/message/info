@@ -1,0 +1,3 @@
+BaseCommand<T1, T2>
+T1 hier MessageContextMenuCommandInteraction
+T2 hier CommandInteractionOptionResolver

@@ -1,0 +1,61 @@
+{
+  "client": {
+    "token": "",
+    "owner_ids": [],
+    "intents": [
+      "Guilds", "GuildMembers",
+      "GuildMessageReactions", "GuildVoiceStates",
+      "GuildModeration", "GuildMessages",
+      "GuildMessageTyping", "GuildEmojisAndStickers",
+      "GuildScheduledEvents", "GuildInvites",
+      "MessageContent"
+    ],
+    "partials": [
+      "User", "Channel",
+      "GuildMember", "Message",
+      "Reaction", "GuildScheduledEvent",
+      "ThreadMember"
+    ]
+  },
+  "database": {
+    "login_uri": ""
+  },
+  "support": {
+    "id": "",
+    "invitation": "",
+    "website": "",
+    "channels": {
+      "logs": "",
+      "errors": ""
+    }
+  },
+  "embeds": {
+    "colors": {
+      "normal":"#11abc1",
+      "success": "#5daa68",
+      "warning": "#fdee30",
+      "error": "#fe4a49",
+      "transparent": "#36393F"
+    },
+    "footer_text": ""
+  },
+  "presences": [
+    {
+      "status": "online",
+      "type": "Custom",
+      "message": "NEVAR"
+    }
+  ],
+  "invitation": {
+    "scopes": ["Bot", "ApplicationsCommands"],
+    "permissions": [
+      "AddReactions", "AttachFiles", "BanMembers",
+      "EmbedLinks", "KickMembers", "ManageChannels",
+      "ManageMessages", "ManageWebhooks", "ModerateMembers",
+      "MoveMembers", "ReadMessageHistory", "SendMessages",
+      "SendMessagesInThreads", "UseExternalEmojis", "ViewAuditLog",
+      "ViewChannel", "ManageRoles", "CreateGuildExpressions",
+      "ManageGuildExpressions"
+    ]
+  }
+}
