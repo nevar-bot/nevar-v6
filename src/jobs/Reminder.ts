@@ -20,28 +20,31 @@ class Reminder {
 
 	public async remind(): Promise<void> {
 		try{
-			const formatUtils: FormatUtils = new FormatUtils();
-			const clientUtils: ClientUtils = new ClientUtils(this.client);
+			const formatUtilsInstance: FormatUtils = new FormatUtils();
+			const clientUtilsInstance: ClientUtils = new ClientUtils(this.client);
 			for(const memberData of [...this.client.databaseCache.reminders.values()]){
-				memberData.reminders.forEach((reminder: any): void => {
-					if (reminder.endDate <= Date.now()) {
+				memberData.reminders.forEach((reminder): void => {
+					if (reminder.end <= Date.now()) {
 						const guild: Guild|undefined = this.client.guilds.cache.get(memberData.guildID);
 						if (!guild) return;
 
 						const channel: any = guild.channels.cache.get(reminder.channel);
 						if (!channel) return;
 
-						guild.members.fetch(memberData.id).then((member: GuildMember): void => {
-							const reminderAgo: string = formatUtils.discordTimestamp(reminder.startDate, "R");
-							const text: string = '### ' + this.client.emotes.reminder + ' Hier ist deine Erinnerung, die du vor {0} erstellt hast: {1}';
+						// Send reminder
+						const createdBeforeTimestamp: string = formatUtilsInstance.discordTimestamp(reminder.start, 'R');
+						const reminderText: string = 
+							'### ' + clientUtilsInstance.emote('reminder') + ' ' + reminder.reason + '\n' +
+							'-# ' + clientUtilsInstance.emote('calendar') + ' Erstellt vor: **' + createdBeforeTimestamp + '**';
 
-							const remindEmbed: EmbedBuilder = clientUtils.createEmbed(text, null, "normal", reminderAgo, reminder.reason);
-							channel.send({ content: member.toString(), embeds: [remindEmbed] });
+						const remindEmbed: EmbedBuilder = clientUtilsInstance.createEmbed(reminderText, null, 'normal');
 
-							memberData.reminders = memberData.reminders.filter((r: any): boolean => r.startDate !== reminder.startDate);
-							memberData.markModified("reminders");
-							memberData.save();
-						});
+						channel.send({ content: '<@' + memberData.id + '>', embeds: [remindEmbed]});
+
+						// Remove reminder from database
+						memberData.reminders = memberData.reminders.filter((r): boolean => r.start !== reminder.start);
+						memberData.markModified('reminders');
+						memberData.save();
 					}
 				});
 			}
