@@ -88,6 +88,9 @@ class ReminderCommand extends BaseCommand<CommandInteraction, CommandInteraction
 		this.data.member.markModified('reminders');
 		await this.data.member.save();
 
+		// Add reminder to cache
+		this.client.databaseCache.reminders.set(this.user.id + this.guild.id, this.data.member);
+
 		// Send success message
 		const remindInTimestamp: string = this.formatUtils.discordTimestamp(Date.now() + ms(duration), 'R');
 		const reminderAddedEmbed: EmbedBuilder = this.clientUtils.createEmbed('Ich werde dich **in {0} erinnern**.', this.emote('success'), 'normal', remindInTimestamp);
