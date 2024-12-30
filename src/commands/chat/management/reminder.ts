@@ -93,7 +93,7 @@ class ReminderCommand extends BaseCommand<CommandInteraction, CommandInteraction
 
 		// Send success message
 		const remindInTimestamp: string = this.formatUtils.discordTimestamp(Date.now() + ms(duration), 'R');
-		const reminderAddedEmbed: EmbedBuilder = this.clientUtils.createEmbed('Ich werde dich **in {0} erinnern**.', this.emote('success'), 'normal', remindInTimestamp);
+		const reminderAddedEmbed: EmbedBuilder = this.clientUtils.createEmbed('Ich werde dich **{0} erinnern**.', this.emote('success'), 'normal', remindInTimestamp);
 		await this.interaction.followUp({ embeds: [reminderAddedEmbed] });
 	}
 
