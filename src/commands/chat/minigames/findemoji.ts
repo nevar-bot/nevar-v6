@@ -52,11 +52,11 @@ class FindemojiGame extends BaseGame {
 		this.emojis = this.randomUtils.shuffleArray(this.emojis).slice(0, 8);
 		this.emoji = this.emojis[Math.floor(Math.random() * this.emojis.length)];
 
-		const findEmojiEmbed: EmbedBuilder = this.clientUtils.createEmbed('Merke dir die Reihenfolge!', this.clientUtils.emote('arrow_right'), 'normal');
+		const findEmojiEmbed: EmbedBuilder = this.clientUtils.createEmbed('Merke dir die **Reihenfolge der Emojis**, so gut du kannst!', this.clientUtils.emote('arrow_right'), 'normal');
 
 		const msg: any = await this.sendMessage({
 			embeds: [findEmojiEmbed],
-			components: this.getComponents(true),
+			components: this.disableButtons(this.getComponents(true)),
 		});
 
 		const timeoutCallback: any = async (): Promise<void> => {
@@ -72,7 +72,7 @@ class FindemojiGame extends BaseGame {
 
 			emojiCollector.on("collect", async (btn: any): Promise<any> => {
 				await btn.deferUpdate().catch((e: any): void => {});
-				this.selected = this.emojis[parseInt(btn.customId.split("_")[1])];
+				this.selected = this.emojis[parseInt(btn.customId.split("_")[2])];
 				return emojiCollector.stop();
 			});
 
@@ -89,9 +89,9 @@ class FindemojiGame extends BaseGame {
 
 		let finalMessage: string;
 		if (resultMessage === "win") {
-			finalMessage = 'Du hast gewonnen! Der Emoji war: ' + this.emoji;
+			finalMessage = 'Das war richtig, **du hast gewonnen**!';
 		} else {
-			finalMessage = 'Du hast verloren! Der Emoji war: ' + this.emoji;
+			finalMessage = 'Das war leider falsch! Der **Emoji wäre ' + this.emoji + ' gewesen**.';
 		}
 
 		const gameOverEmbed: EmbedBuilder = this.clientUtils.createEmbed(finalMessage, this.clientUtils.emote('arrow_right'), "normal");
