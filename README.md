@@ -17,7 +17,7 @@ Nevar is a lightweight and fast Discord bot written in TypeScript
 
 [![Banner][banner-url]][website-url]
 
-[banner-url]:https://i.imgur.com/U4NGNLK.png
+[banner-url]:https://i.ibb.co/cY6gSjX/Banner.png
 [website-url]:https://nevar.eu
 
 ## Authors
