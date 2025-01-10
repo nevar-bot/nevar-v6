@@ -3,6 +3,8 @@ import { BaseGame } from '@core/BaseGame.js';
 import {
 	CommandInteraction, CommandInteractionOptionResolver, SlashCommandBuilder,
 	EmbedBuilder, ButtonBuilder, ButtonStyle, ButtonInteraction, Message,
+	ApplicationIntegrationType,
+	InteractionContextType,
 } from 'discord.js';
 import { BaseClient } from '@core/BaseClient.js';
 
@@ -15,6 +17,8 @@ class FloodCommand extends BaseCommand<CommandInteraction, CommandInteractionOpt
 			slashCommand: {
 				register: true,
 				data: new SlashCommandBuilder()
+					.setIntegrationTypes(ApplicationIntegrationType.GuildInstall)
+					.setContexts(InteractionContextType.Guild)
 			},
 		});
 	}

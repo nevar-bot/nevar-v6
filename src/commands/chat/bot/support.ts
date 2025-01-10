@@ -10,7 +10,7 @@ class SupportCommand extends BaseCommand<CommandInteraction, CommandInteractionO
 	constructor(client: BaseClient) {
 		super(client, {
 			name: 'support',
-			description: 'Wir helfen dir gerne bei Fragen oder Problemen weiter!',
+			description: 'Betritt gerne unseren Support- & Community-Server',
 			dirname: import.meta.url,
 			slashCommand: {
 				register: true,

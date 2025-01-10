@@ -1,5 +1,5 @@
 import { BaseCommand } from '@core/BaseCommand.js';
-import { CommandInteraction, CommandInteractionOptionResolver, EmbedBuilder, SlashCommandBuilder, SlashCommandStringOption, SlashCommandSubcommandBuilder } from 'discord.js';
+import { ApplicationIntegrationType, CommandInteraction, CommandInteractionOptionResolver, EmbedBuilder, InteractionContextType, SlashCommandBuilder, SlashCommandStringOption, SlashCommandSubcommandBuilder } from 'discord.js';
 import { BaseClient } from '@core/BaseClient.js';
 import ems from 'enhanced-ms';
 const ms = ems('de');
@@ -8,11 +8,13 @@ class ReminderCommand extends BaseCommand<CommandInteraction, CommandInteraction
 	constructor(client: BaseClient) {
 		super(client, {
 			name: 'reminder',
-			description: 'Erinnert dich automatisch in einer bestimmten Zeit',
+			description: 'Erinnere dich automatisch in einer bestimmten Zeit',
 			dirname: import.meta.url,
 			slashCommand: {
 				register: true,
 				data: new SlashCommandBuilder()
+					.setIntegrationTypes(ApplicationIntegrationType.GuildInstall)
+					.setContexts(InteractionContextType.Guild)
 					.addSubcommand((subCommand: SlashCommandSubcommandBuilder) => subCommand
 						.setName('hinzufügen')
 						.setDescription('Erstelle eine Erinnerung')

@@ -16,7 +16,7 @@ class AutodeleteCommand extends BaseCommand<CommandInteraction, CommandInteracti
 	constructor(client: BaseClient) {
 		super(client, {
 			name: 'autodelete',
-			description: 'Automatisches Löschen von Nachrichten in ausgewählten Kanälen nach einer bestimmten Zeit',
+			description: 'Lege fest, dass Nachrichten in einem Kanal nach einer bestimmten Zeit automatisch gelöscht werden',
 			dirname: import.meta.url,
 
 			permissions: {

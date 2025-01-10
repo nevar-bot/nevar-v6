@@ -11,7 +11,7 @@ class ServerinfoCommand extends BaseCommand<CommandInteraction, CommandInteracti
 	constructor(client: BaseClient) {
 		super(client, {
 			name: 'serverinfo',
-			description: 'Auf welchem Server bin ich eigentlich?',
+			description: 'Zeige Informationen über den Server an',
 			dirname: import.meta.url,
 			slashCommand: {
 				register: true,

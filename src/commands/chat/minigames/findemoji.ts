@@ -6,6 +6,8 @@ import {
 	SlashCommandBuilder,
 	EmbedBuilder,
 	ActionRowBuilder, ButtonBuilder, ButtonStyle,
+	ApplicationIntegrationType,
+	InteractionContextType,
 } from 'discord.js';
 import { BaseClient } from '@core/BaseClient.js';
 
@@ -18,6 +20,8 @@ class FindemojiCommand extends BaseCommand<CommandInteraction, CommandInteractio
 			slashCommand: {
 				register: true,
 				data: new SlashCommandBuilder()
+					.setIntegrationTypes(ApplicationIntegrationType.GuildInstall)
+					.setContexts(InteractionContextType.Guild)
 			},
 		});
 	}

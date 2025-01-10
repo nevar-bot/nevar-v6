@@ -1,17 +1,21 @@
 import { BaseCommand } from '@core/BaseCommand.js';
 import {
-	ApplicationIntegrationType, CommandInteraction,
+	ApplicationIntegrationType, CommandInteraction, PermissionsBitField,
 	CommandInteractionOptionResolver, EmbedBuilder, InteractionContextType,
 	SlashCommandBuilder, SlashCommandIntegerOption, SlashCommandUserOption,
 } from 'discord.js';
 import { BaseClient } from '@core/BaseClient.js';
-
+const { Flags } = PermissionsBitField;
 class RemovewarningCommand extends BaseCommand<CommandInteraction, CommandInteractionOptionResolver> {
 	constructor(client: BaseClient) {
 		super(client, {
 			name: 'remove-warning',
-			description: 'Entfernt eine Verwarnung eines Mitglieds',
+			description: 'Entferne eine Verwarnung eines Mitglieds',
 			dirname: import.meta.url,
+			permissions: {
+				bot: [Flags.KickMembers],
+				user: [Flags.KickMembers]
+			},
 			slashCommand: {
 				register: true,
 				data: new SlashCommandBuilder()

@@ -10,7 +10,7 @@ class RickrollCommand extends BaseCommand<CommandInteraction, CommandInteraction
 	constructor(client: BaseClient) {
 		super(client, {
 			name: 'rickroll',
-			description: 'Never gonna give you up, never gonna let you down...',
+			description: 'Never gonna give you up, never gonna let you down',
 			dirname: import.meta.url,
 			slashCommand: {
 				register: true,

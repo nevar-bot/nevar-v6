@@ -13,7 +13,7 @@ class CommandusageCommand extends BaseCommand<Message, string[]> {
 			description: 'Schau dir die Nutzungsstatistiken eines Befehls an',
 			dirname: import.meta.url,
 			restrictions: {
-				ownerOnly: true
+				staffOnly: true
 			},
 			slashCommand: {
 				register: false,

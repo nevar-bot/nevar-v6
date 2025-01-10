@@ -11,7 +11,7 @@ class RankCommand extends BaseCommand<CommandInteraction, CommandInteractionOpti
 	constructor(client: BaseClient) {
 		super(client, {
 			name: 'rank',
-			description: 'Schau dir deine Levelkarte an',
+			description: 'Sieh dir deine Levelkarte an',
 			dirname: import.meta.url,
 			slashCommand: {
 				register: true,

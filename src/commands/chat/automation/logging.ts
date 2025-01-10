@@ -14,7 +14,7 @@ class LoggingCommand extends BaseCommand<CommandInteraction, CommandInteractionO
 	constructor(client: BaseClient) {
 		super(client, {
 			name: 'logging',
-			description: 'Das automatische Protokollieren von Ereignissen',
+			description: 'Protokolliere Ereignisse auf deinem Server',
 			dirname: import.meta.url,
 
 			permissions: {

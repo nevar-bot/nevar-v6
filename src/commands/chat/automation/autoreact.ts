@@ -14,7 +14,7 @@ class AutoreactCommand extends BaseCommand<CommandInteraction, CommandInteractio
 	constructor(client: BaseClient) {
 		super(client, {
 			name: 'autoreact',
-			description: 'Automatisches Reagieren auf Nachrichten in ausgewählten Kanälen',
+			description: 'Lege fest, dass Nachrichten eine bestimmte Reaktion automatisch erhalten',
 			dirname: import.meta.url,
 
 			permissions: {

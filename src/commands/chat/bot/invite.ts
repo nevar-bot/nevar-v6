@@ -9,7 +9,7 @@ class InviteCommand extends BaseCommand<CommandInteraction, CommandInteractionOp
 	constructor(client: BaseClient) {
 		super(client, {
 			name: 'invite',
-			description: 'Ich freue mich, dich auch auf deinem Server zu sehen!',
+			description: 'Lade mich auf deinen Server ein',
 			dirname: import.meta.url,
 			slashCommand: {
 				register: true,

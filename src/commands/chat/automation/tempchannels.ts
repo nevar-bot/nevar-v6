@@ -14,10 +14,14 @@ class TempchannelsCommand extends BaseCommand<CommandInteraction, CommandInterac
 	constructor(client: BaseClient) {
 		super(client, {
 			name: 'tempchannels',
-			description: 'Erschaffe temporäre Sprachkanäle für deine Mitglieder',
+			description: 'Ermögliche deinen Mitgliedern temporäre Sprachkanäle',
 			permissions: {
-				bot: [Flags.ManageChannels],
-				user: [Flags.ManageGuild]
+				bot: [
+					Flags.ManageChannels
+				],
+				user: [
+					Flags.ManageGuild
+				]
 			},
 			dirname: import.meta.url,
 			slash: {

@@ -14,7 +14,7 @@ class HelpCommand extends BaseCommand<CommandInteraction, CommandInteractionOpti
 	constructor(client: BaseClient) {
 		super(client, {
 			name: 'help',
-			description: 'Zeigt eine Übersicht aller Befehle, oder Hilfe zu einem bestimmten Befehl',
+			description: 'Zeige eine Übersicht aller Befehle',
 			dirname: import.meta.url,
 			slashCommand: {
 				register: true,

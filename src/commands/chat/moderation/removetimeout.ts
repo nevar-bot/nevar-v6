@@ -1,9 +1,10 @@
 import { BaseCommand } from '@core/BaseCommand.js';
 import {
 	CommandInteraction, CommandInteractionOptionResolver, SlashCommandBuilder,
-	SlashCommandUserOption, EmbedBuilder, ApplicationIntegrationType, InteractionContextType,
+	SlashCommandUserOption, EmbedBuilder, ApplicationIntegrationType, InteractionContextType, PermissionsBitField
 } from 'discord.js';
 import { BaseClient } from '@core/BaseClient.js';
+const { Flags } = PermissionsBitField;
 
 class RemovetimeoutCommand extends BaseCommand<CommandInteraction, CommandInteractionOptionResolver> {
 	constructor(client: BaseClient) {
@@ -11,6 +12,10 @@ class RemovetimeoutCommand extends BaseCommand<CommandInteraction, CommandIntera
 			name: 'remove-timeout',
 			description: 'Hole ein Mitglied aus dem Timeout',
 			dirname: import.meta.url,
+			permissions: {
+				bot: [Flags.ModerateMembers],
+				user: [Flags.ModerateMembers]
+			},
 			slashCommand: {
 				register: true,
 				data: new SlashCommandBuilder()

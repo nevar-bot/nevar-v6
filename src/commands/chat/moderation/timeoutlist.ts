@@ -4,16 +4,21 @@ import {
 	CommandInteraction,
 	CommandInteractionOptionResolver,
 	GuildMember, InteractionContextType,
-	SlashCommandBuilder,
+	SlashCommandBuilder, PermissionsBitField,
 } from 'discord.js';
 import { BaseClient } from '@core/BaseClient.js';
+const { Flags } = PermissionsBitField;
 
 class TimeoutlistCommand extends BaseCommand<CommandInteraction, CommandInteractionOptionResolver> {
 	constructor(client: BaseClient) {
 		super(client, {
 			name: 'timeout-list',
-			description: 'Listet alle Mitglieder auf, die sich im Timeout befinden',
+			description: 'Liste alle Mitglieder auf, die sich im Timeout befinden',
 			dirname: import.meta.url,
+			permissions: {
+				bot: [Flags.ModerateMembers],
+				user: [Flags.ModerateMembers]
+			},
 			slashCommand: {
 				register: true,
 				data: new SlashCommandBuilder()

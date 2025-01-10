@@ -6,7 +6,7 @@ class ServericonCommand extends BaseCommand<CommandInteraction, CommandInteracti
 	constructor(client: BaseClient) {
 		super(client, {
 			name: 'servericon',
-			description: 'Zeige das Icon des Servers an',
+			description: 'Zeige das Servericon an',
 			dirname: import.meta.url,
 			slashCommand: {
 				register: true,

@@ -5,9 +5,10 @@ import {
 	CommandInteractionOptionResolver, EmbedBuilder, GuildBan, InteractionContextType,
 	SlashCommandBuilder,
 	SlashCommandUserOption,
-	User,
+	User, PermissionsBitField
 } from 'discord.js';
 import { BaseClient } from '@core/BaseClient.js';
+const { Flags } = PermissionsBitField;
 
 class UnbanCommand extends BaseCommand<CommandInteraction, CommandInteractionOptionResolver> {
 	constructor(client: BaseClient) {
@@ -15,6 +16,10 @@ class UnbanCommand extends BaseCommand<CommandInteraction, CommandInteractionOpt
 			name: 'unban',
 			description: 'Entbanne ein Mitglied von deinem Server',
 			dirname: import.meta.url,
+			permissions: {
+				bot: [Flags.BanMembers],
+				user: [Flags.BanMembers]
+			},
 			slashCommand: {
 				register: true,
 				data: new SlashCommandBuilder()

@@ -1,5 +1,5 @@
 import { BaseCommand } from '@core/BaseCommand.js';
-import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, CommandInteraction, CommandInteractionOptionResolver, EmbedBuilder, Message, SlashCommandBuilder } from 'discord.js';
+import { ActionRowBuilder, ApplicationIntegrationType, ButtonBuilder, ButtonInteraction, ButtonStyle, CommandInteraction, CommandInteractionOptionResolver, EmbedBuilder, InteractionContextType, Message, SlashCommandBuilder } from 'discord.js';
 import { BaseClient } from '@core/BaseClient.js';
 import { BaseGame } from '@core/BaseGame.js';
 
@@ -13,6 +13,8 @@ class HangmanCommand extends BaseCommand<CommandInteraction, CommandInteractionO
 			slashCommand: {
 				register: true,
 				data: new SlashCommandBuilder()
+					.setIntegrationTypes(ApplicationIntegrationType.GuildInstall)
+					.setContexts(InteractionContextType.Guild)
 			},
 		});
 	}

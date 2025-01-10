@@ -19,7 +19,10 @@ class DoublexpCommand extends BaseCommand<CommandInteraction, CommandInteraction
 			description: 'Verwalte doppelte XP im Levelsystem',
 			permissions: {
 				bot: [],
-				user: [Flags.ManageGuild, Flags.ManageRoles]
+				user: [
+					Flags.ManageGuild, 
+					Flags.ManageRoles
+				]
 			},
 			dirname: import.meta.url,
 			slashCommand: {

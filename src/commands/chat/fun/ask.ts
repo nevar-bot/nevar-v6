@@ -12,7 +12,7 @@ class AskCommand extends BaseCommand<CommandInteraction, CommandInteractionOptio
 	constructor(client: BaseClient) {
 		super(client, {
 			name: 'ask',
-			description: 'Erhalte garantierte richtige Antworten auf deine Fragen',
+			description: 'Stelle mir Fragen und ich werde sie beantworten',
 			dirname: import.meta.url,
 			slashCommand: {
 				register: true,

@@ -3,9 +3,10 @@ import {
 	ApplicationIntegrationType,
 	CommandInteraction,
 	CommandInteractionOptionResolver, InteractionContextType,
-	SlashCommandBuilder, SlashCommandUserOption,
+	SlashCommandBuilder, SlashCommandUserOption, PermissionsBitField
 } from 'discord.js';
 import { BaseClient } from '@core/BaseClient.js';
+const { Flags } = PermissionsBitField;
 
 class WarningsCommand extends BaseCommand<CommandInteraction, CommandInteractionOptionResolver> {
 	constructor(client: BaseClient) {
@@ -13,6 +14,10 @@ class WarningsCommand extends BaseCommand<CommandInteraction, CommandInteraction
 			name: 'warnings',
 			description: 'Zeigt alle Verwarnungen eines Mitgliedes an',
 			dirname: import.meta.url,
+			permissions: {
+				bot: [Flags.KickMembers],
+				user: [Flags.KickMembers]
+			},
 			slashCommand: {
 				register: true,
 				data: new SlashCommandBuilder()

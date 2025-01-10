@@ -13,7 +13,7 @@ class AutoroleCommand extends BaseCommand<CommandInteraction, CommandInteraction
 	constructor(client: BaseClient) {
 		super(client, {
 			name: 'autorole',
-			description: 'Automatisches Zuweisen von Rollen an neue Mitglieder',
+			description: 'Weise neuen Mitgliedern automatisch bestimmte Rollen zu',
 			dirname: import.meta.url,
 
 			permissions: {

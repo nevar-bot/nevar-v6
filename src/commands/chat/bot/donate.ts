@@ -10,7 +10,7 @@ class DonateCommand extends BaseCommand<CommandInteraction, CommandInteractionOp
 	constructor(client: BaseClient) {
 		super(client, {
 			name: 'donate',
-			description: 'Wir freuen uns über jeden, der uns unterstützen möchte!',
+			description: 'Wir freuen uns über jede Spende :)',
 			dirname: import.meta.url,
 			slashCommand: {
 				register: true,

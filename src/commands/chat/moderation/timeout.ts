@@ -1,18 +1,23 @@
 import { BaseCommand } from '@core/BaseCommand.js';
 import {
-	CommandInteraction, CommandInteractionOptionResolver, SlashCommandBuilder,
+	CommandInteraction, CommandInteractionOptionResolver, SlashCommandBuilder, PermissionsBitField,
 	SlashCommandStringOption, EmbedBuilder, SlashCommandUserOption, ApplicationIntegrationType, InteractionContextType,
 } from 'discord.js';
 import { BaseClient } from '@core/BaseClient.js';
 import ems from "enhanced-ms";
 const ms = ems("de");
+const { Flags } = PermissionsBitField;
 
 class TimeoutCommand extends BaseCommand<CommandInteraction, CommandInteractionOptionResolver> {
 	constructor(client: BaseClient) {
 		super(client, {
 			name: 'timeout',
-			description: 'Sperrt ein Mitglied für eine bestimmte Zeit',
+			description: 'Sperre ein Mitglied für eine bestimmte Zeit',
 			dirname: import.meta.url,
+			permissions: {
+				bot: [Flags.ModerateMembers],
+				user: [Flags.ModerateMembers]
+			},
 			slashCommand: {
 				register: true,
 				data: new SlashCommandBuilder()

@@ -1,16 +1,18 @@
 import { BaseCommand } from '@core/BaseCommand.js';
-import { CommandInteraction, CommandInteractionOptionResolver, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
+import { ApplicationIntegrationType, CommandInteraction, CommandInteractionOptionResolver, EmbedBuilder, InteractionContextType, SlashCommandBuilder } from 'discord.js';
 import { BaseClient } from '@core/BaseClient.js';
 
 class UptimeCommand extends BaseCommand<CommandInteraction, CommandInteractionOptionResolver> {
 	constructor(client: BaseClient) {
 		super(client, {
 			name: 'uptime',
-			description: 'Zeigt die Betriebszeit des Bots an',
+			description: 'Zeige meine Betriebszeit an',
 			dirname: import.meta.url,
 			slashCommand: {
 				register: true,
 				data: new SlashCommandBuilder()
+					.setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall)
+					.setContexts(InteractionContextType.Guild, InteractionContextType.PrivateChannel, InteractionContextType.BotDM)
 			},
 		});
 	}

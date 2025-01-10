@@ -1,16 +1,21 @@
 import { BaseCommand } from '@core/BaseCommand.js';
 import {
-	CommandInteraction, CommandInteractionOptionResolver, SlashCommandBuilder,
+	CommandInteraction, CommandInteractionOptionResolver, SlashCommandBuilder, PermissionsBitField,
 	SlashCommandUserOption, EmbedBuilder, ApplicationIntegrationType, InteractionContextType,
 } from 'discord.js';
 import { BaseClient } from '@core/BaseClient.js';
+const { Flags } = PermissionsBitField;
 
 class ResetwarningsCommand extends BaseCommand<CommandInteraction, CommandInteractionOptionResolver> {
 	constructor(client: BaseClient) {
 		super(client, {
 			name: 'reset-warnings',
-			description: 'Setzt die Verwarnungen eines Mitgliedes zurück',
+			description: 'Setze die Verwarnungen eines Mitgliedes zurück',
 			dirname: import.meta.url,
+			permissions: {
+				bot: [Flags.KickMembers],
+				user: [Flags.KickMembers]
+			},
 			slashCommand: {
 				register: true,
 				data: new SlashCommandBuilder()

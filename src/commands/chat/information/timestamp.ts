@@ -17,8 +17,8 @@ class TimestampCommand extends BaseCommand<CommandInteraction, CommandInteractio
 			slashCommand: {
 				register: true,
 				data: new SlashCommandBuilder()
-					.setIntegrationTypes(ApplicationIntegrationType.GuildInstall)
-					.setContexts(InteractionContextType.Guild)
+					.setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall)
+					.setContexts(InteractionContextType.Guild, InteractionContextType.PrivateChannel, InteractionContextType.BotDM)
 					.addStringOption((stringOption: SlashCommandStringOption) => stringOption
 						.setName("datum")
 						.setDescription("Gib hier das Datum im deutschen Format an (Datum & Zeit, nur Datum oder nur Zeit)")

@@ -20,7 +20,7 @@ class EmbedCommand extends BaseCommand<CommandInteraction, CommandInteractionOpt
 	constructor(client: BaseClient) {
 		super(client, {
 			name: 'embed',
-			description: 'Sende ein von dir personalisiertes Embed',
+			description: 'Sende dein eigenes Embed',
 			dirname: import.meta.url,
 			permissions: {
 				bot: [],

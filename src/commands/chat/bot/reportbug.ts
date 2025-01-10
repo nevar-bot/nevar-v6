@@ -10,7 +10,7 @@ class ReportbugCommand extends BaseCommand<CommandInteraction, CommandInteractio
 	constructor(client: BaseClient) {
 		super(client, {
 			name: 'reportbug',
-			description: 'Melde einen Fehler direkt an unser Entwickler-Team',
+			description: 'Melde einen Fehler direkt an unser Team',
 			dirname: import.meta.url,
 			slashCommand: {
 				register: true,

@@ -11,7 +11,7 @@ class MemeCommand extends BaseCommand<CommandInteraction, CommandInteractionOpti
 	constructor(client: BaseClient) {
 		super(client, {
 			name: 'meme',
-			description: 'Theoretisch könnten hier lustige Sachen kommen',
+			description: 'Sende ein zufälliges Meme',
 			dirname: import.meta.url,
 			slashCommand: {
 				register: true,

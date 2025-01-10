@@ -16,7 +16,7 @@ class WelcomeCommand extends BaseCommand<CommandInteraction, CommandInteractionO
 	constructor(client: BaseClient) {
 		super(client, {
 			name: 'welcome',
-			description: 'Begrüßt Mitglieder, welche den Server betreten',
+			description: 'Begrüße neue Mitglieder auf deinem Server',
 			dirname: import.meta.url,
 
 			permissions: {

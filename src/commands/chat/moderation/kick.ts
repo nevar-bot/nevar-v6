@@ -1,7 +1,9 @@
 import { BaseCommand } from '@core/BaseCommand.js';
 import {
 	CommandInteraction, CommandInteractionOptionResolver, EmbedBuilder,
-	SlashCommandBuilder, SlashCommandStringOption, SlashCommandUserOption, PermissionsBitField
+	SlashCommandBuilder, SlashCommandStringOption, SlashCommandUserOption, PermissionsBitField,
+	ApplicationIntegrationType,
+	InteractionContextType
 } from 'discord.js';
 import { BaseClient } from '@core/BaseClient.js';
 const { Flags } = PermissionsBitField;
@@ -10,7 +12,7 @@ class KickCommand extends BaseCommand<CommandInteraction, CommandInteractionOpti
 	constructor(client: BaseClient) {
 		super(client, {
 			name: 'kick',
-			description: 'Kickt ein Mitglied vom Server',
+			description: 'Kicke ein Mitglied vom Server',
 			permissions: {
 				bot: [Flags.KickMembers],
 				user: [Flags.KickMembers]
@@ -19,6 +21,8 @@ class KickCommand extends BaseCommand<CommandInteraction, CommandInteractionOpti
 			slashCommand: {
 				register: true,
 				data: new SlashCommandBuilder()
+					.setIntegrationTypes(ApplicationIntegrationType.GuildInstall)
+					.setContexts(InteractionContextType.Guild)
 					.addUserOption((userOption: SlashCommandUserOption) => userOption
 						.setName('mitglied')
 						.setDescription('Wähle das Mitglied, das du kicken möchtest')

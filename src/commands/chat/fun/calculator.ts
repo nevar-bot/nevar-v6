@@ -13,7 +13,7 @@ class CalculatorCommand extends BaseCommand<CommandInteraction, CommandInteracti
 	constructor(client: BaseClient) {
 		super(client, {
 			name: 'calculator',
-			description: 'Mathe ist schwer, lass mich das für dich machen',
+			description: 'Benutz mich als Taschenrechner',
 			dirname: import.meta.url,
 			slashCommand: {
 				register: true,

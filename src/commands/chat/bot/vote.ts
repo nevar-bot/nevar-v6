@@ -10,7 +10,7 @@ class VoteCommand extends BaseCommand<CommandInteraction, CommandInteractionOpti
 	constructor(client: BaseClient) {
 		super(client, {
 			name: 'vote',
-			description: 'Unterstütze uns mit deiner Stimme!',
+			description: 'Unterstütze uns mit einem Klick',
 			dirname: import.meta.url,
 			slashCommand: {
 				register: true,

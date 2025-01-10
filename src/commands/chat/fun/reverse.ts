@@ -10,7 +10,7 @@ class ReverseCommand extends BaseCommand<CommandInteraction, CommandInteractionO
 	constructor(client: BaseClient) {
 		super(client, {
 			name: 'reverse',
-			description: '?thets reih saw ,nesel ud tsnnaK',
+			description: 'Schreibe deinen Text rückwärts',
 			dirname: import.meta.url,
 			slashCommand: {
 				register: true,

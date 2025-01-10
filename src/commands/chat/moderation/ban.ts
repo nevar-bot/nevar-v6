@@ -13,7 +13,7 @@ class BanCommand extends BaseCommand<CommandInteraction, CommandInteractionOptio
 	constructor(client: BaseClient) {
 		super(client, {
 			name: 'ban',
-			description: 'Verbanne unliebsame Nutzer von deinem Server',
+			description: 'Banne Nutzer von deinem Server',
 			permissions: {
 				bot: [Flags.BanMembers],
 				user: [Flags.BanMembers]

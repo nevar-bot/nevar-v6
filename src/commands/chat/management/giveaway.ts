@@ -4,23 +4,34 @@ import {
 	SlashCommandChannelOption, SlashCommandSubcommandBuilder, ChannelType,
 	SlashCommandStringOption, SlashCommandIntegerOption, EmbedBuilder,
 	StringSelectMenuBuilder, ButtonBuilder, ButtonStyle,
-	MessageComponentInteraction, Message,
+	MessageComponentInteraction, Message, PermissionsBitField,
+	ApplicationIntegrationType,
+	InteractionContextType
 } from 'discord.js';
 import { BaseClient } from '@core/BaseClient.js';
 import ems from "enhanced-ms";
 import { parse, isValid } from 'date-fns';
 const ms: any = ems("de");
 import { GiveawayManager } from '@services/GiveawayManager.js';
+const { Flags } = PermissionsBitField;
 
 class GiveawayCommand extends BaseCommand<CommandInteraction, CommandInteractionOptionResolver> {
 	constructor(client: BaseClient) {
 		super(client, {
 			name: 'giveaway',
 			description: 'Starte und verwalte Gewinnspiele auf deinem Server',
+			permissions: {
+				bot: [],
+				user: [
+					Flags.ManageGuild, 
+				]
+			},
 			dirname: import.meta.url,
 			slashCommand: {
 				register: true,
 				data: new SlashCommandBuilder()
+					.setIntegrationTypes(ApplicationIntegrationType.GuildInstall)
+					.setContexts(InteractionContextType.Guild)
 					.addSubcommand((createSubCommand: SlashCommandSubcommandBuilder) => createSubCommand
 						.setName('erstellen')
 						.setDescription('Starte ein neues Gewinnspiel')

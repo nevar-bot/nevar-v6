@@ -16,7 +16,7 @@ class GoodbyeCommand extends BaseCommand<CommandInteraction, CommandInteractionO
 	constructor(client: BaseClient) {
 		super(client, {
 			name: 'goodbye',
-			description: 'Automatisches Verabschieden von Mitgliedern welche den Server verlassen',
+			description: 'Verabschiede Mitglieder die deinen Server verlassen automatisch',
 			dirname: import.meta.url,
 
 			permissions: {
