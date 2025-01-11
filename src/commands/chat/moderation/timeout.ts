@@ -128,8 +128,19 @@ class TimeoutCommand extends BaseCommand<CommandInteraction, CommandInteractionO
 				'-# ' + this.emote('text') + ' **Grund**: ' + reason + '\n' +
 				'-# ' + this.emote('calendar') + ' **Timeout endet am**: ' + timeoutedUntilString + '\n' +
 				'-# ' + this.emote('reminder') + ' **Timeout endet**: ' + timeoutedUntilStringRelative + '\n';
-			const publicTimeoutInformationEmbed: EmbedBuilder = this.clientUtils.createEmbed(publicTimeoutInformationText, null, 'error')
-				.setImage('https://y.yarn.co/afa74a80-1e0c-4137-ad26-978ed1d6934b_text.gif');
+			const publicTimeoutInformationEmbed: EmbedBuilder = this.clientUtils.createEmbed(publicTimeoutInformationText, null, 'error');
+
+			const timeoutGifs: string[] = [
+				'https://y.yarn.co/afa74a80-1e0c-4137-ad26-978ed1d6934b_text.gif',
+				'https://c.tenor.com/CUEZfVScac0AAAAd/tenor.gif',
+				'https://c.tenor.com/kgPZdXWdLnEAAAAd/tenor.gif',
+				'https://c.tenor.com/_21JbI4Kht4AAAAd/tenor.gif',
+				'https://c.tenor.com/eQudwJAYWjsAAAAd/tenor.gif'
+			];
+
+			const randomTimeoutGif: string = this.randomUtils.randomChoice(timeoutGifs);
+
+			publicTimeoutInformationEmbed.setImage(randomTimeoutGif);
 
 			await this.interaction.followUp({ embeds: [publicTimeoutInformationEmbed] });
 
