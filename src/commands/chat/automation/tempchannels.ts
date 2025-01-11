@@ -24,7 +24,7 @@ class TempchannelsCommand extends BaseCommand<CommandInteraction, CommandInterac
 				]
 			},
 			dirname: import.meta.url,
-			slash: {
+			slashCommand: {
 				register: true,
 				data: new SlashCommandBuilder()
 					.setIntegrationTypes(ApplicationIntegrationType.GuildInstall)

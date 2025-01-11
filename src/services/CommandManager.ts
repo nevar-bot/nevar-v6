@@ -64,6 +64,7 @@ class CommandManager {
 				commands.push(slashData.toJSON());
 			}
 
+			console.log(commands.find((command) => command.name === 'tempchannels'));
 			try {
 				await this.rest.put(Routes.applicationCommands(config.get('client.id')), { body: commands });
 				this.logger.success('Successfully registered ' + commands.length + ' commands');
