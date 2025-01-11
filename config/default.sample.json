@@ -1,6 +1,7 @@
 {
   "client": {
     "token": "",
+    "id": "",
     "owner_ids": [],
     "intents": [
       "Guilds", "GuildMembers",
@@ -15,6 +16,9 @@
       "GuildMember", "Message",
       "Reaction", "GuildScheduledEvent",
       "ThreadMember"
+    ],
+    "allowedMentions": [
+      "users"
     ]
   },
   "database": {
@@ -23,6 +27,7 @@
   "support": {
     "id": "",
     "invitation": "",
+    "donate": "",
     "website": "",
     "channels": {
       "logs": "",
@@ -31,13 +36,13 @@
   },
   "embeds": {
     "colors": {
-      "normal":"#11abc1",
-      "success": "#5daa68",
-      "warning": "#fdee30",
-      "error": "#fe4a49",
+      "normal":"#d6a3fb",
+      "success": "#abf62d",
+      "warning": "#fecd45",
+      "error": "#ff6a3d",
       "transparent": "#36393F"
     },
-    "footer_text": ""
+    "footer_text": "www.nevar.eu • v{{version}}"
   },
   "presences": [
     {
