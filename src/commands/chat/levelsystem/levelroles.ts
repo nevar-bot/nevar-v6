@@ -107,13 +107,6 @@ class LevelrolesCommand extends BaseCommand<CommandInteraction, CommandInteracti
 			return;
 		}
 
-		// Check if guild has reached limit
-		if(this.data.guild.settings.levelsystem.roles.length >= this.config.get('databaseLimits.levelroles')){
-			const reachedLimitEmbed: EmbedBuilder = this.clientUtils.createEmbed('Es können **maximal {0} Rollen** als Levelrolle hinzugefügt werden.', this.emote('error'), 'error', this.config.get('databaseLimits.levelroles'));
-			await this.interaction.editReply({ embeds: [reachedLimitEmbed] });
-			return;
-		}
-
 		// Add role to database
 		try{
 			const levelRole = {
