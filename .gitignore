@@ -10,6 +10,7 @@
 # Node.js
 # =====================================================
 package-lock.json
+pnpm-lock.yaml
 # Logs
 logs
 *.log
