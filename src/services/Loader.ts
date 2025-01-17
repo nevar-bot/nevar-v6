@@ -1,210 +1,275 @@
-import * as path from 'path';
-import { Events } from 'discord.js';
-import { readdir } from 'fs/promises';
 import { BaseClient } from '@core/BaseClient.js';
-import { LoggerUtils as Log } from '@utils/logger-utils.js';
-const Logger: Log = new Log();
-import { ClientUtils } from '@utils/client-utils.js';
 import { CommandUtils } from '@utils/command-utils.js';
-import { readdirSync, lstatSync, Stats } from 'fs';
-import { join, extname } from 'path';
+import { LoggerUtils as Log } from '@utils/logger-utils.js';
 import config from 'config';
+import { Events } from 'discord.js';
+import { lstatSync, readdirSync, Stats } from 'node:fs';
+import { readdir } from 'node:fs/promises';
+import * as path from 'node:path';
+import { extname, join } from 'node:path';
 
+const Logger: Log = new Log();
 
 export class Loader {
-    private readonly client: BaseClient;
-    public constructor(client: BaseClient) {
-        this.client = client;
-    }
+	private readonly client: BaseClient;
 
-    public async loadCommands(silent: boolean = false): Promise<void|Error> {
-        try {
-            const Utils: ClientUtils = new ClientUtils(this.client);
-            const commandUtilsInstance: CommandUtils = new CommandUtils(this.client);
-            /* Load chat commands */
-            let loadedChatCommands: number = 0;
-            let failedChatCommands: number = 0;
-            if(!silent) Logger.log('Trying to load chat commands...');
+	public constructor(client: BaseClient) {
+		this.client = client;
+	}
 
-            /* Read all directories in chat commands folder */
-            const directories: string[] = await readdir('./dist/commands/chat')
-                .catch((error: any): [] => {
-                    if(error?.code !== 'ENOENT' && !silent){
-                        Logger.error('Error while reading chat commands directory', error);
-                    }
-                    return [];
-                });
+	public async loadCommands(silent: boolean = false): Promise<void | Error> {
+		try {
+			const commandUtilsInstance: CommandUtils = new CommandUtils(this.client);
+			/* Load chat commands */
+			let loadedChatCommands = 0;
+			let failedChatCommands = 0;
+			if (!silent) Logger.log('Trying to load chat commands...');
 
-            /* Loop through all directories */
-            for(const directory of directories) {
-                const chatCommands: string[] = await readdir(path.join('./dist/commands/chat', directory))
-                    .catch((error: any): [] => {
-                        if(error?.code !== 'ENOENT' && !silent){
-                            Logger.error('Error while reading message command category directory', error);
-                        }
-                        return [];
-                    });
+			/* Read all directories in chat commands folder */
+			const directories: string[] = await readdir('./dist/commands/chat').catch(
+				(error: any): [] => {
+					if (error?.code !== 'ENOENT' && !silent) {
+						Logger.error('Error while reading chat commands directory', error);
+					}
+					return [];
+				}
+			);
 
-                /* Filter JavaScript files and load chat commands */
-                for(const chatCommand of chatCommands.filter(command => path.extname(command) === '.js')) {
-                    try {
-                        await commandUtilsInstance.loadCommand('../commands/chat/' + directory, chatCommand, 'chat');
-                        loadedChatCommands++;
-                        if(!silent) Logger.log('Loaded chat command ' + chatCommand);
-                    }catch(error: unknown) {
-                        failedChatCommands++;
-                        if(!silent) Logger.error('Error while loading chat command ' + chatCommand, error);
-                    }
-                }
-            }
+			/* Loop through all directories */
+			for (const directory of directories) {
+				const chatCommands: string[] = await readdir(
+					path.join('./dist/commands/chat', directory)
+				).catch((error: any): [] => {
+					if (error?.code !== 'ENOENT' && !silent) {
+						Logger.error(
+							'Error while reading message command category directory',
+							error
+						);
+					}
+					return [];
+				});
 
-            const chatCommandsLogMessage: string = 'Attempted to load ' + (loadedChatCommands + failedChatCommands) + ' chat commands. ✅  ' + loadedChatCommands + ' - ❌  ' + failedChatCommands;
-            if(failedChatCommands > 0){
-                if(!silent) Logger.warn(chatCommandsLogMessage);
-            }else{
-                if(!silent) Logger.success(chatCommandsLogMessage);
-            }
-            if(!silent && (failedChatCommands + loadedChatCommands === 0)) Logger.warn('There\'s no chat commands to load');
+				/* Filter JavaScript files and load chat commands */
+				for (const chatCommand of chatCommands.filter(
+					command => path.extname(command) === '.js'
+				)) {
+					try {
+						await commandUtilsInstance.loadCommand(
+							'../commands/chat/' + directory,
+							chatCommand,
+							'chat'
+						);
+						loadedChatCommands++;
+						if (!silent) Logger.log('Loaded chat command ' + chatCommand);
+					} catch (error: unknown) {
+						failedChatCommands++;
+						if (!silent)
+							Logger.error('Error while loading chat command ' + chatCommand, error);
+					}
+				}
+			}
 
-            /* Load user commands */
-            let loadedUserCommands: number = 0;
-            let failedUserCommands: number = 0;
-            if(!silent) Logger.log('Trying to load user commands...');
+			const chatCommandsLogMessage: string =
+				'Attempted to load ' +
+				(loadedChatCommands + failedChatCommands) +
+				' chat commands. ✅  ' +
+				loadedChatCommands +
+				' - ❌  ' +
+				failedChatCommands;
+			if (failedChatCommands > 0) {
+				if (!silent) Logger.warn(chatCommandsLogMessage);
+			} else {
+				if (!silent) Logger.success(chatCommandsLogMessage);
+			}
+			if (!silent && failedChatCommands + loadedChatCommands === 0)
+				Logger.warn('There\'s no chat commands to load');
 
-            const userCommands: string[] = await readdir('./dist/commands/user')
-                .catch((error: any): [] => {
-                    if(error?.code !== 'ENOENT' && !silent){
-                        Logger.error('Error while reading user commands directory', error);
-                    }
-                    return [];
-                });
+			/* Load user commands */
+			let loadedUserCommands = 0;
+			let failedUserCommands = 0;
+			if (!silent) Logger.log('Trying to load user commands...');
 
-            /* Filter JavaScript files and load user commands */
-            for(const userCommand of userCommands.filter(command => path.extname(command) === '.js')) {
-                try {
-                    await commandUtilsInstance.loadCommand('../commands/user/', userCommand, 'user');
-                    loadedUserCommands++;
-                    if(!silent) Logger.log('Loaded user command ' + userCommand);
-                }catch(error: unknown) {
-                    failedUserCommands++;
-                    if(!silent) Logger.error('Error while loading user command ' + userCommand, error);
-                }
-            }
+			const userCommands: string[] = await readdir('./dist/commands/user').catch(
+				(error: any): [] => {
+					if (error?.code !== 'ENOENT' && !silent) {
+						Logger.error('Error while reading user commands directory', error);
+					}
+					return [];
+				}
+			);
 
+			/* Filter JavaScript files and load user commands */
+			for (const userCommand of userCommands.filter(
+				command => path.extname(command) === '.js'
+			)) {
+				try {
+					await commandUtilsInstance.loadCommand(
+						'../commands/user/',
+						userCommand,
+						'user'
+					);
+					loadedUserCommands++;
+					if (!silent) Logger.log('Loaded user command ' + userCommand);
+				} catch (error: unknown) {
+					failedUserCommands++;
+					if (!silent)
+						Logger.error('Error while loading user command ' + userCommand, error);
+				}
+			}
 
-            const userCommandsLogMessage: string = 'Attempted to load ' + (loadedUserCommands + failedUserCommands) + ' user commands. ✅  ' + loadedUserCommands + ' - ❌  ' + failedUserCommands;
-            if(failedUserCommands > 0){
-                if(!silent) Logger.warn(userCommandsLogMessage);
-            }else{
-                if(!silent) Logger.success(userCommandsLogMessage);
-            }
-            if(!silent && (failedUserCommands + loadedUserCommands === 0)) Logger.warn('There\'s no user commands to load');
+			const userCommandsLogMessage: string =
+				'Attempted to load ' +
+				(loadedUserCommands + failedUserCommands) +
+				' user commands. ✅  ' +
+				loadedUserCommands +
+				' - ❌  ' +
+				failedUserCommands;
+			if (failedUserCommands > 0) {
+				if (!silent) Logger.warn(userCommandsLogMessage);
+			} else {
+				if (!silent) Logger.success(userCommandsLogMessage);
+			}
+			if (!silent && failedUserCommands + loadedUserCommands === 0)
+				Logger.warn('There\'s no user commands to load');
 
-            /* Load message commands */
-            let loadedMessageCommands: number = 0;
-            let failedMessageCommands: number = 0;
-            if(!silent) Logger.log('Trying to load message commands...');
+			/* Load message commands */
+			let loadedMessageCommands = 0;
+			let failedMessageCommands = 0;
+			if (!silent) Logger.log('Trying to load message commands...');
 
-            const messageCommands: string[] = await readdir('./dist/commands/message')
-                .catch((error: any): [] => {
-                    if(error?.code !== 'ENOENT' && !silent){
-                        Logger.error('Error while reading message commands directory', error);
-                    }
-                    return [];
-                });
+			const messageCommands: string[] = await readdir('./dist/commands/message').catch(
+				(error: any): [] => {
+					if (error?.code !== 'ENOENT' && !silent) {
+						Logger.error('Error while reading message commands directory', error);
+					}
+					return [];
+				}
+			);
 
-            /* Filter JavaScript files and load message commands */
-            for(const messageCommand of messageCommands.filter(command => path.extname(command) === '.js')) {
-                try {
-                    await commandUtilsInstance.loadCommand('../commands/message/', messageCommand, 'message');
-                    loadedMessageCommands++;
-                    if(!silent) Logger.success('Loaded message command ' + messageCommand);
-                }catch(error: unknown) {
-                    failedMessageCommands++;
-                    if(!silent) Logger.error('Error while loading message command ' + messageCommand, error);
-                }
-            }
+			/* Filter JavaScript files and load message commands */
+			for (const messageCommand of messageCommands.filter(
+				command => path.extname(command) === '.js'
+			)) {
+				try {
+					await commandUtilsInstance.loadCommand(
+						'../commands/message/',
+						messageCommand,
+						'message'
+					);
+					loadedMessageCommands++;
+					if (!silent) Logger.success('Loaded message command ' + messageCommand);
+				} catch (error: unknown) {
+					failedMessageCommands++;
+					if (!silent)
+						Logger.error(
+							'Error while loading message command ' + messageCommand,
+							error
+						);
+				}
+			}
 
+			const messageCommandsLogMessage: string =
+				'Attempted to load ' +
+				(loadedMessageCommands + failedMessageCommands) +
+				' message commands. ✅  ' +
+				loadedMessageCommands +
+				' - ❌  ' +
+				failedMessageCommands;
+			if (failedMessageCommands > 0) {
+				if (!silent) Logger.warn(messageCommandsLogMessage);
+			} else {
+				if (!silent) Logger.success(messageCommandsLogMessage);
+			}
+			if (!silent && failedMessageCommands + loadedMessageCommands === 0)
+				Logger.warn('There\'s no message commands to load');
+		} catch (error: unknown) {
+			throw error;
+		}
+	}
 
-            const messageCommandsLogMessage: string = 'Attempted to load ' + (loadedMessageCommands + failedMessageCommands) + ' message commands. ✅  ' + loadedMessageCommands + ' - ❌  ' + failedMessageCommands;
-            if(failedMessageCommands > 0){
-                if(!silent) Logger.warn(messageCommandsLogMessage);
-            }else{
-                if(!silent) Logger.success(messageCommandsLogMessage);
-            }
-            if(!silent && (failedMessageCommands + loadedMessageCommands === 0)) Logger.warn('There\'s no message commands to load');
-        }catch(error: unknown){
-            throw error;
-        }
-    }
+	public async loadEvents(): Promise<void | Error> {
+		try {
+			let loadedEvents = 0;
+			let failedEvents = 0;
+			Logger.log('Trying to load events...');
 
-    public async loadEvents(): Promise<void|Error> {
-        try {
-            let loadedEvents: number = 0;
-            let failedEvents: number = 0;
-            Logger.log('Trying to load events...');
+			const eventFiles: string[] = this.recursiveReadDirSync('dist/events');
 
-            const eventFiles: string[] = this.recursiveReadDirSync('dist/events');
+			for (const eventPath of eventFiles) {
+				const eventFile: string = path.basename(eventPath);
+				const eventName: string | typeof Events = path.basename(
+					eventFile,
+					path.extname(eventFile)
+				);
 
-            for(const eventPath of eventFiles){
-                const eventFile: string = path.basename(eventPath);
-                const eventName: string|typeof Events = path.basename(eventFile, path.extname(eventFile));
+				try {
+					const cleanPath: string = eventPath
+						.split(path.sep)
+						.join(path.posix.sep)
+						.replace(/^[A-Za-z]:/, '');
+					const module = await import(cleanPath);
+					const nameWithoutFileExtension: string = path.basename(
+						eventName,
+						path.extname(eventName)
+					);
+					const className: string = nameWithoutFileExtension + 'Event';
+					const event = module[className];
 
-                try{
-                    const cleanPath: string = eventPath.split(path.sep).join(path.posix.sep).replace('C:', '');
-                    const module = await import(cleanPath);
-                    const nameWithoutFileExtension: string = path.basename(eventName, path.extname(eventName));
-                    const className: string = nameWithoutFileExtension + 'Event';
-                    const event = module[className];
+					this.client.on(Events[eventName], (...args): void => {
+						const eventInstance = new event(this.client);
+						eventInstance.run(...args);
+					});
 
-                    this.client.on(Events[eventName], (...args): void => {
-                        const eventInstance = new event(this.client);
-                        eventInstance.run(...args);
-                    });
+					loadedEvents++;
+					Logger.log('Loaded event ' + eventName);
+				} catch (error: unknown) {
+					failedEvents++;
+					Logger.error('Error while loading event ' + eventName, error);
+				}
+			}
+			const eventsLogMessage: string =
+				'Attempted to load ' +
+				(loadedEvents + failedEvents) +
+				' events. ✅  ' +
+				loadedEvents +
+				' - ❌  ' +
+				failedEvents;
+			if (failedEvents > 0) {
+				Logger.warn(eventsLogMessage);
+			} else {
+				Logger.success(eventsLogMessage);
+			}
+			if (failedEvents + loadedEvents === 0) Logger.warn('There\'s no events to load');
+		} catch (error: unknown) {
+			throw error;
+		}
+	}
 
-                    loadedEvents++;
-                    Logger.log('Loaded event ' + eventName);
-                }catch(error: unknown){
-                    failedEvents++;
-                    Logger.error('Error while loading event ' + eventName, error);
-                }
-            }
-            const eventsLogMessage: string = 'Attempted to load ' + (loadedEvents + failedEvents) + ' events. ✅  ' + loadedEvents + ' - ❌  ' + failedEvents;
-            if(failedEvents > 0){
-                Logger.warn(eventsLogMessage);
-            }else{
-                Logger.success(eventsLogMessage);
-            }
-            if(failedEvents + loadedEvents === 0) Logger.warn('There\'s no events to load');
+	public async login(): Promise<void> {
+		await this.client.login(config.get('client.token'));
+	}
 
+	private recursiveReadDirSync(
+		directory: string,
+		allowedExtensions: string[] = ['.js']
+	): string[] {
+		const filePaths: string[] = [];
 
-        }catch(error: unknown){
-            throw error;
-        }
-    }
+		const readCommands = (dir: string): void => {
+			const files: string[] = readdirSync(join(process.cwd(), dir));
+			files.forEach((file: string): void => {
+				const filePath: string = join(process.cwd(), dir, file);
+				const stat: Stats = lstatSync(filePath);
 
-    public async login(): Promise<void> {
-        await this.client.login(config.get('client.token'));
-    }
+				if (stat.isDirectory()) {
+					readCommands(join(dir, file));
+				} else if (allowedExtensions.includes(extname(file))) {
+					filePaths.push(filePath);
+				}
+			});
+		};
 
-    private recursiveReadDirSync(directory: string, allowedExtensions: string[] = ['.js']): string[] {
-        const filePaths: string[] = [];
-
-        const readCommands = (dir: string): void => {
-            const files: string[] = readdirSync(join(process.cwd(), dir));
-            files.forEach((file: string): void => {
-                const filePath: string = join(process.cwd(), dir, file);
-                const stat: Stats = lstatSync(filePath);
-
-                if (stat.isDirectory()) {
-                    readCommands(join(dir, file));
-                } else if (allowedExtensions.includes(extname(file))) {
-                    filePaths.push(filePath);
-                }
-            });
-        };
-
-        readCommands(directory);
-        return filePaths;
-    }
+		readCommands(directory);
+		return filePaths;
+	}
 }
