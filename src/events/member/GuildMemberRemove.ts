@@ -19,12 +19,23 @@ class GuildMemberRemoveEvent extends BaseEvent {
 
 		// Log message
 		const embedText: string =
-			'### ' + this.emote('member_delete') + ' Mitglied hat den Server verlassen\n\n' +
-			'-# ' + this.emote('calendar') + ' **Erstellt am**: ' + this.formatUtils.discordTimestamp(removedGuildMember.user.createdTimestamp, 'f') + '\n' +
-			'-# ' + this.emote('reminder') + ' **Erstellt vor**: ' + this.formatUtils.discordTimestamp(removedGuildMember.user.createdTimestamp, 'R');
+			'### ' +
+			this.emote('member_delete') +
+			' Mitglied hat den Server verlassen\n\n' +
+			'-# ' +
+			this.emote('calendar') +
+			' **Erstellt am**: ' +
+			this.formatUtils.discordTimestamp(removedGuildMember.user.createdTimestamp, 'f') +
+			'\n' +
+			'-# ' +
+			this.emote('reminder') +
+			' **Erstellt vor**: ' +
+			this.formatUtils.discordTimestamp(removedGuildMember.user.createdTimestamp, 'R');
 
-		const memberLogEmbed = this.clientUtils.createEmbed(embedText, null, 'error')
-			.setAuthor({ name: removedGuildMember.user.username, iconURL: removedGuildMember.displayAvatarURL() });
+		const memberLogEmbed = this.clientUtils.createEmbed(embedText, null, 'error').setAuthor({
+			name: removedGuildMember.user.username,
+			iconURL: removedGuildMember.displayAvatarURL(),
+		});
 
 		await guildUtilsInstance.log(memberLogEmbed, 'member');
 
@@ -33,36 +44,78 @@ class GuildMemberRemoveEvent extends BaseEvent {
 			const guildMessage: string = guildData.settings.farewell.message;
 
 			if (!guildMessage) {
-				const embedText: string =
-					'### ' + this.emote('error') + ' Verabschiedungsnachricht nicht gefunden\n\n' +
-					'-# ' + this.emote('arrow_right') + ' **Fehler**: Es wurde keine Verabschiedungsnachricht gesetzt. Bitte setze die Verabschiedungsnachricht mit `/goodbye nachricht`.';
+				this.commandUtils
+					.commandMention('goodbye', 'nachricht')
+					.then(async (mention: string) => {
+						const embedText: string =
+							'### ' +
+							this.emote('error') +
+							' Verabschiedungsnachricht nicht gefunden\n\n' +
+							'-# ' +
+							this.emote('arrow_right') +
+							' **Fehler**: Es wurde keine Verabschiedungsnachricht gesetzt. Bitte setze die Verabschiedungsnachricht mit: ' +
+							mention;
 
-				const serverLogEmbed: EmbedBuilder = this.clientUtils.createEmbed(embedText, null, 'error').setThumbnail(this.client.user.displayAvatarURL());
-				await guildUtilsInstance.log(serverLogEmbed, 'guild');
+						const serverLogEmbed: EmbedBuilder = this.clientUtils
+							.createEmbed(embedText, null, 'error')
+							.setThumbnail(this.client.user.displayAvatarURL());
+						await guildUtilsInstance.log(serverLogEmbed, 'guild');
+					});
 				return;
 			}
 
-			const farewellMessage: string = this.parseFarewellMessage(guildMessage, removedGuildMember, guild);
+			const farewellMessage: string = this.parseFarewellMessage(
+				guildMessage,
+				removedGuildMember,
+				guild
+			);
 
 			const channel: any = guild.channels.cache.get(guildData.settings.farewell.channelId);
 			if (!channel) {
-				const embedText: string =
-					'### ' + this.emote('error') + ' Verabschiedungskanal nicht gefunden\n\n' +
-					'-# ' + this.emote('arrow_right') + ' **Fehler**:  Der Verabschiedungskanal wurde nicht gefunden. Bitte setze den Verabschiedungskanal mit `/goodbye kanal`.';
+				this.commandUtils
+					.commandMention('goodbye', 'kanal')
+					.then(async (mention: string) => {
+						const embedText: string =
+							'### ' +
+							this.emote('error') +
+							' Verabschiedungskanal nicht gefunden\n\n' +
+							'-# ' +
+							this.emote('arrow_right') +
+							' **Fehler**:  Der Verabschiedungskanal wurde nicht gefunden. Bitte setze den Verabschiedungskanal mit: ' +
+							mention;
 
-				const serverLogEmbed: EmbedBuilder = this.clientUtils.createEmbed(embedText, null, 'error').setThumbnail(this.client.user.displayAvatarURL());
-				await guildUtilsInstance.log(serverLogEmbed, 'guild');
+						const serverLogEmbed: EmbedBuilder = this.clientUtils
+							.createEmbed(embedText, null, 'error')
+							.setThumbnail(this.client.user.displayAvatarURL());
+						await guildUtilsInstance.log(serverLogEmbed, 'guild');
+					});
 				return;
 			}
 
-			if (!guild.members.me.permissionsIn(channel.id).has(PermissionsBitField.Flags.SendMessages)) return;
+			if (
+				!guild.members.me
+					.permissionsIn(channel.id)
+					.has(PermissionsBitField.Flags.SendMessages)
+			)
+				return;
 			if (!guildData.settings.farewell.color) {
-				const embedText: string =
-					'### ' + this.emote('error') + ' Verabschiedungsfarbe nicht gefunden\n\n' +
-					'-# ' + this.emote('arrow_right') + ' **Fehler**: Die Verabschiedungsfarbe wurde nicht gefunden. Bitte setze die Verabschiedungsfarbe mit `/goodbye farbe`.';
+				this.commandUtils
+					.commandMention('goodbye', 'farbe')
+					.then(async (mention: string) => {
+						const embedText: string =
+							'### ' +
+							this.emote('error') +
+							' Verabschiedungsfarbe nicht gefunden\n\n' +
+							'-# ' +
+							this.emote('arrow_right') +
+							' **Fehler**: Die Verabschiedungsfarbe wurde nicht gefunden. Bitte setze die Verabschiedungsfarbe mit: ' +
+							mention;
 
-				const serverLogEmbed: EmbedBuilder = this.clientUtils.createEmbed(embedText, null, 'error').setThumbnail(this.client.user.displayAvatarURL());
-				await guildUtilsInstance.log(serverLogEmbed, 'guild');
+						const serverLogEmbed: EmbedBuilder = this.clientUtils
+							.createEmbed(embedText, null, 'error')
+							.setThumbnail(this.client.user.displayAvatarURL());
+						await guildUtilsInstance.log(serverLogEmbed, 'guild');
+					});
 				return;
 			}
 
@@ -79,7 +132,11 @@ class GuildMemberRemoveEvent extends BaseEvent {
 		}
 	}
 
-	private parseFarewellMessage(message: string, removedGuildMember: GuildMember, guild: any): string {
+	private parseFarewellMessage(
+		message: string,
+		removedGuildMember: GuildMember,
+		guild: any
+	): string {
 		return message
 			.replaceAll('?user.displayName', removedGuildMember.displayName)
 			.replaceAll('?user.name', removedGuildMember.user.username)
