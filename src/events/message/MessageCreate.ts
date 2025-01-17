@@ -167,7 +167,6 @@ class MessageCreateEvent extends BaseEvent {
 				if(guildData.settings.levelsystem.doubleXP.some((roleId: string): boolean => memberRoles.includes(roleId))) gainedXp *= 2;
 			}
 
-			console.log('test');
 			const userLeveledUp: boolean = await levelManagerInstance.appendXp(member.user.id, guild.id, gainedXp);
 			if(userLeveledUp){
 				const levelData = await levelManagerInstance.fetch(member.user.id, guild.id, true);
