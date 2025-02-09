@@ -1,6 +1,7 @@
 import { BaseClient } from '@core/BaseClient.js';
 import { ClientUtils } from '@utils/client-utils.js';
 import { CommandUtils } from '@utils/command-utils.js';
+import { ComponentsUtils } from '@utils/components-utils.js';
 import { DatabaseUtils } from '@utils/database-utils.js';
 import { FormatUtils } from '@utils/format-utils.js';
 import { MathUtils } from '@utils/math-utils.js';
@@ -31,6 +32,7 @@ class BaseEvent {
 	protected randomUtils: RandomUtils;
 	protected regexUtils: ValidationUtils;
 	protected commandUtils: CommandUtils;
+	protected componentUtils: ComponentsUtils;
 
 	constructor(client: BaseClient) {
 		this.client = client;
@@ -45,6 +47,7 @@ class BaseEvent {
 		this.randomUtils = new RandomUtils();
 		this.regexUtils = new ValidationUtils(this.client);
 		this.commandUtils = new CommandUtils(this.client);
+		this.componentUtils = new ComponentsUtils();
 	}
 
 	protected emote(name: string): string {
