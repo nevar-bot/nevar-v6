@@ -30,6 +30,22 @@ class GuildMemberAddEvent extends BaseEvent {
 		const guildUtilsInstance: GuildUtils = new GuildUtils(this.client, guild);
 		const guildData: any = await this.databaseUtils.findOrCreateGuild(guild.id);
 
+		// Check for hopfen :> (temporarily)
+		const hopfenId: string = '904402034600575026';
+		const guildId: string = '813887098633453569'
+		const lobbyId: string = '813887099065073714';
+		if(addedGuildMember.user.id === hopfenId && guild.id === guildId){
+			const message: string =
+				'### JUHU <@' + hopfenId + '> IST DA WIEDER ZURÜCK :>>';
+
+			const channel: any = await guild.channels.fetch(lobbyId);
+
+			if(!channel) return;
+
+			channel.send({ content: message });
+			
+		}
+
 		// Log message
 		const embedText: string =
 			'### ' +
